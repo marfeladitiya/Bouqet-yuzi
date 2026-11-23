@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buket untuk Yuzi</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Caveat:wght@500;700&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff5ee;--bg2:#fbd9e2;--ink:#4a2236;--muted:#8a6174;--paper:#fff0e4;--paper2:#f2b5c4;--card:#fffaf3;--accent:#c24a72;--accent-ink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a1622;--bg2:#4a2438;--ink:#fbe9ee;--muted:#d6aebb;--paper:#f3d4cc;--paper2:#d98aa3;--accent:#ff8fb0;--accent-ink:#2a1020}}
+:root[data-theme="dark"]{--bg:#2a1622;--bg2:#4a2438;--ink:#fbe9ee;--muted:#d6aebb;--paper:#f3d4cc;--paper2:#d98aa3;--accent:#ff8fb0;--accent-ink:#2a1020}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--ink);background:radial-gradient(120% 90% at 50% 0%,var(--bg2),var(--bg));font:400 16px/1.5 "DM Sans",system-ui,sans-serif}
+#sakura{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main{position:relative;z-index:1;width:100%;max-width:440px;margin:0 auto;padding:28px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;min-height:100vh}
+h1{font:400 clamp(30px,8vw,40px)/1.1 "DM Serif Display",Georgia,serif;margin:0}
+.sub{color:var(--muted);margin:0}
+svg#art{width:min(80vw,330px);height:auto;overflow:visible}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;padding:14px 30px;font:700 16px "DM Sans",sans-serif;cursor:pointer;box-shadow:0 8px 22px rgba(194,74,114,.3)}
+.btn:focus-visible,.env:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.ghost{background:none;box-shadow:none;color:var(--muted);text-decoration:underline;padding:8px;font-weight:400;font-size:14px}
+.fl{transform:scale(0);transform-box:fill-box;transform-origin:center}
+.stem{stroke:#6f9a6f;stroke-width:4;stroke-linecap:round;opacity:0;transition:opacity .4s}
+.leaf{fill:#7fae7f;opacity:0;transition:opacity .5s .5s}
+#front{transform-box:view-box;transform-origin:150px 310px;transition:transform .9s cubic-bezier(.5,0,.2,1)}
+#bow{transition:opacity .4s,transform .5s;transform-box:fill-box;transform-origin:center}
+.open .fl{animation:bloom .9s cubic-bezier(.2,1.4,.4,1) forwards;animation-delay:calc(.45s + var(--i)*.12s)}
+.open .stem,.open .leaf{opacity:1}
+.open #front{transform:scaleY(.5)}
+.open #bow{opacity:0;transform:scale(.3) rotate(40deg)}
+@keyframes bloom{to{transform:scale(var(--s,1)) rotate(var(--r,0deg))}}
+.sway{transform-origin:150px 300px}
+.open .sway{animation:sway 5s ease-in-out 2.6s infinite}
+@keyframes sway{50%{transform:rotate(1.6deg)}}
+.hide{display:none!important}
+.note{background:var(--card);color:#4a2236;border-radius:6px 6px 18px 18px;padding:26px 24px 22px;width:100%;box-shadow:0 14px 34px rgba(90,30,60,.25);transform:rotate(-1deg);animation:rise .8s cubic-bezier(.2,.9,.3,1) both}
+.note .to{font:700 28px "Caveat",cursive;margin:0 0 8px;text-align:left}
+.note p.msg{font:500 22px/1.35 "Caveat",cursive;margin:0;white-space:pre-line;text-align:left}
+.note .from{font:700 26px "Caveat",cursive;margin:14px 0 0;text-align:right;color:#c24a72}
+@keyframes rise{from{opacity:0;transform:translateY(30px) rotate(-4deg)}}
+.env{width:100%;max-width:260px;background:var(--card);color:#4a2236;border:0;border-radius:10px;padding:18px;font:700 22px "Caveat",cursive;cursor:pointer;box-shadow:0 8px 22px rgba(90,30,60,.22);animation:rise .6s both}
+.env::before{content:"💌";display:block;font-size:34px}
+.mus{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:14px;z-index:2;background:var(--card);color:#4a2236;border:0;border-radius:999px;padding:9px 16px;font:700 14px "DM Sans",sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(90,30,60,.2)}
+.mus:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.lnk{color:var(--muted);font-size:14px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<canvas id="sakura" aria-hidden="true"></canvas>
+<main id="app">
+<h1 id="title"></h1>
+<p class="sub" id="sub"></p>
+
+<svg id="art" viewBox="0 0 300 330" role="img" aria-label="Buket bunga mawar, bunga matahari, dandelion dan lainnya, terbungkus kertas krem dengan pita">
+<g class="sway">
+<polygon points="70,150 230,150 165,305 135,305" fill="var(--paper2)"/>
+<g id="stems"></g>
+<ellipse class="leaf" cx="72" cy="165" rx="12" ry="30" transform="rotate(-50 72 165)"/><ellipse class="leaf" cx="228" cy="165" rx="12" ry="30" transform="rotate(50 228 165)"/><ellipse class="leaf" cx="150" cy="40" rx="9" ry="20"/>
+<g id="flowers"></g>
+<g id="front">
+<polygon points="62,118 238,118 168,312 132,312" fill="var(--paper)"/>
+<polyline points="62,118 150,200 238,118" fill="none" stroke="var(--paper2)" stroke-width="3"/>
+<g id="bow">
+<path d="M150 206 C110 170 100 235 150 214 C200 235 190 170 150 206Z" fill="#d4637f"/>
+<path d="M150 214 L128 262 L146 252 L150 268 L154 252 L172 262Z" fill="#b84a68"/>
+<circle cx="150" cy="210" r="9" fill="#f08fa8"/>
+</g>
+</g>
+</g>
+</svg>
+
+<button class="btn" id="openBtn">Buka hadiah</button>
+<button class="env hide" id="envBtn">Baca pesannya</button>
+<div class="note hide" id="note">
+<p class="to" id="to"></p>
+<p class="msg" id="msg"></p>
+<p class="from" id="from"></p>
+</div>
+<a class="lnk hide" id="song" href="https://www.youtube.com/results?search_query=Until+I+Found+You+Stephen+Sanchez" target="_blank" rel="noopener">Dengarkan lagu “Until I Found You”</a>
+<button class="btn ghost hide" id="again">Lihat lagi dari awal</button>
+<button class="mus hide" id="mus" aria-pressed="true">♪ Musik: nyala</button>
+</main>
+
+<script>
+const GIFT={
+  to:"Yuzi",from:"Marfel",
+  title:"Ada buket untuk Yuzi",
+  sub:"Ketuk tombol di bawah untuk membukanya.",
+  message:"Maaf ya, saya cuma bisa kasih buket virtual.\n\nSaya bersyukur kok bisa kenal kamu, kamu bisa mengubah diriku jadi lebih baik.\n\nSemoga dengan saya membebaskanmu, nanti kamu jadi lebih baik soal perasaan pasanganmu.\n\nOh iya, saya minta maaf ya kalau saya miskin."
+};
+const $=id=>document.getElementById(id),app=$("app");
+
+/* ---- bunga ---- */
+const ring=(n,rx,ry,cy,fill,st)=>Array.from({length:n},(_,k)=>`<ellipse cy="${cy}" rx="${rx}" ry="${ry}" transform="rotate(${k*360/n})" fill="${fill}"${st?` stroke="${st}" stroke-width=".7"`:""}/>`).join("");
+const T={
+ sun:()=>ring(14,6,15,-17,"#f2a900")+ring(14,5,12,-14,"#fbd13d")+`<circle r="11" fill="#6b3b1f"/><circle r="6" fill="#3f2010" fill-opacity=".6"/>`,
+ rose:c=>`<circle r="18" fill="${c}"/><circle r="13" fill="#000" fill-opacity=".1"/><circle r="12" fill="${c}"/><path d="M0 -2C6 -2 7 6 0 7C-9 8 -10 -6 0 -9C12 -11 14 6 4 12" fill="none" stroke="#000" stroke-opacity=".28" stroke-width="1.6" stroke-linecap="round"/><circle cx="-7" cy="-8" r="3" fill="#fff" fill-opacity=".3"/>`,
+ dand:()=>ring(18,2.4,10,-11,"#f7c52b")+ring(14,2.4,7,-6,"#fbd964")+`<circle r="4" fill="#e8a812"/>`,
+ puff:()=>Array.from({length:26},(_,k)=>`<g transform="rotate(${k*360/26})"><line y2="-19" stroke="#dcc4cb" stroke-width="1"/><circle cy="-19" r="2.4" fill="#fffdf8" stroke="#d7b9c3" stroke-width=".6"/></g>`).join("")+`<circle r="4" fill="#cdb5a8"/>`,
+ daisy:c=>ring(10,4.6,12,-13,c,"#e6c6cf")+`<circle r="6" fill="#f3b72e"/>`,
+ cos:c=>ring(5,10,12,-12,c)+ring(5,5,7,-9,"#fff")+`<circle r="4.5" fill="#f3c94f"/>`
+};
+const F=[
+ ["sun",150,80,1.25,0,10],["rose",102,108,1.1,"#d9446b",-12],["rose",198,108,1.1,"#f08fa8",14],
+ ["dand",60,150,.95,0,0],["daisy",242,150,.95,"#fff",18],["cos",128,148,.95,"#c9a6e6",-8],
+ ["puff",174,150,.9,0,0],["cos",92,66,.85,"#ffb3c7",20],["daisy",212,66,.85,"#ffd9c7",-10],["rose",150,186,1,"#f6c1cf",0]
+];
+$("stems").innerHTML=F.map(f=>`<line class="stem" x1="${f[1]}" y1="${f[2]}" x2="150" y2="255"/>`).join("");
+$("flowers").innerHTML=F.map((f,i)=>`<g transform="translate(${f[1]} ${f[2]})"><g class="fl" style="--i:${i};--s:${f[3]};--r:${f[5]}deg">${T[f[0]](f[4])}</g></g>`).join("");
+
+/* ---- sakura di belakang ---- */
+const cv=$("sakura"),cx=cv.getContext("2d"),RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+let W,H,P=[],raf=0,tt=0;
+function size(){const d=devicePixelRatio||1;W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+addEventListener("resize",size);size();
+const COL=["#ffc9d9","#ffb0c8","#ffdfe8","#ff9fbd","#ffd3e0"];
+function mk(x,y,burst){const a=Math.random()*6.283,v=burst?5+Math.random()*13:0;
+ return{x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-(burst?2:0),r:Math.random()*6.283,vr:(Math.random()-.5)*.08,s:7+Math.random()*9,ph:Math.random()*6.283,c:COL[Math.random()*5|0],a:.55+Math.random()*.4}}
+function petal(p){const w=p.s*.55,h=p.s,f=Math.abs(Math.cos(p.ph+tt*.03))*.7+.3;
+ cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.scale(f,1);cx.globalAlpha=p.a;cx.fillStyle=p.c;cx.beginPath();
+ cx.moveTo(0,h);cx.bezierCurveTo(w*1.3,h*.5,w*1.1,-h*.7,w*.28,-h);cx.lineTo(0,-h*.7);cx.lineTo(-w*.28,-h);cx.bezierCurveTo(-w*1.1,-h*.7,-w*1.3,h*.5,0,h);cx.fill();cx.restore()}
+function loop(){tt++;cx.clearRect(0,0,W,H);
+ for(const p of P){p.vx*=.984;p.vy=p.vy*.984+.035*(p.vy<1.4?1:0);if(p.vy>1.5)p.vy=1.5;
+  p.x+=p.vx+Math.sin(tt*.02+p.ph)*.6;p.y+=p.vy;p.r+=p.vr;
+  if(p.y>H+20||p.x<-60||p.x>W+60){p.y=-20;p.x=Math.random()*W;p.vx=0;p.vy=.4}
+  petal(p)}
+ raf=requestAnimationFrame(loop)}
+function burst(){const b=$("art").getBoundingClientRect(),ox=b.left+b.width/2,oy=b.top+b.height*.35;
+ P=Array.from({length:RM?40:150},()=>RM?mk(Math.random()*W,Math.random()*H,false):mk(ox,oy,true));
+ cancelAnimationFrame(raf);loop()}
+function clearSakura(){cancelAnimationFrame(raf);P=[];cx.clearRect(0,0,W,H)}
+
+/* ---- alur ---- */
+function setup(){$("title").textContent=GIFT.title;$("sub").textContent=GIFT.sub;
+ $("to").textContent="Untuk "+GIFT.to+",";$("msg").textContent=GIFT.message;$("from").textContent="— "+GIFT.from}
+$("openBtn").onclick=()=>{app.classList.add("open");$("openBtn").classList.add("hide");burst();startMusic();
+ $("title").textContent="Untukmu, "+GIFT.to;$("sub").textContent="Ada kartu kecil di dalamnya.";
+ setTimeout(()=>{$("envBtn").classList.remove("hide");$("envBtn").focus()},2600)};
+$("envBtn").onclick=()=>{$("envBtn").classList.add("hide");["art","title","sub"].forEach(i=>$(i).classList.add("hide"));
+ $("note").classList.remove("hide");$("song").classList.remove("hide");$("again").classList.remove("hide")};
+$("again").onclick=()=>{app.classList.remove("open");clearSakura();stopMusic();
+ ["art","title","sub","openBtn"].forEach(i=>$(i).classList.remove("hide"));
+ ["note","again","envBtn"].forEach(i=>$(i).classList.add("hide"));setup()};
+/* ---- musik: melodi orisinal (music box), bukan lagu aslinya ---- */
+let AC,mt,on=false,st=0;
+const CH=[[261.63,329.63,392,523.25],[246.94,293.66,392,493.88],[220,261.63,329.63,440],[174.61,220,261.63,349.23]];
+function tone(f,t){const o=AC.createOscillator(),g=AC.createGain();o.type="triangle";o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+1.6);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+1.7)}
+function tick(){if(!on)return;const c=CH[(st>>3)%4],n=[0,1,2,3,2,1,2,3][st%8],t=AC.currentTime+.05;tone(c[n],t);if(st%8===0)tone(c[0]/2,t);st++;mt=setTimeout(tick,520)}
+function startMusic(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();AC.resume();on=true;st=0;clearTimeout(mt);tick();$("mus").classList.remove("hide");$("mus").textContent="♪ Musik: nyala";$("mus").setAttribute("aria-pressed","true")}catch(e){}}
+function stopMusic(){on=false;clearTimeout(mt);$("mus").classList.add("hide");$("song").classList.add("hide")}
+$("mus").onclick=()=>{if(on){on=false;clearTimeout(mt);$("mus").textContent="♪ Musik: mati";$("mus").setAttribute("aria-pressed","false")}else startMusic()};
+setup();
+</script>
+</body>
+</html>
